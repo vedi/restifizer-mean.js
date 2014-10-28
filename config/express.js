@@ -145,8 +145,8 @@ module.exports = function(db) {
 	var restifizer = new Restifizer(app, {});
 
 	restifizer
-		.addController(require('../app/controllers/userController'))
-		.addController(require('../app/controllers/articles.server.controller'))
+		.addController(require('../app/controllers/users.server.restifizer.controller'))
+		.addController(require('../app/controllers/articles.server.restifizer.controller.js'))
 	;
 
 
