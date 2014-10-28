@@ -5,6 +5,7 @@
 var
   _ = require('lodash'),
   Q = require('q'),
+  HTTP_STATUSES = require('http-statuses'),
   Article = require('mongoose').model('Article'),
   BaseController = require('./base.server.controller')
 ;
@@ -19,8 +20,22 @@ var ArticleController = BaseController.extend({
       return query.populate('user', 'displayName', callback);
     }
   }, BaseController.prototype.defaultOptions),
+  updateOptions: {
+    pre: function(req, res, callback) {
+      if (req.restifizer.action !== 'delete' && req.param('user') !== req.user.id) {
+        return callback(HTTP_STATUSES.FORBIDDEN.createError('Cannot change alone articles'));
+      }
+      callback();
+    }
+  },
   prepareData: function (req, res, callback) {
     callback(null, {user: req.user});
+  },
+  beforeDelete: function (doc, req, callback) {
+    if (doc.user.toString() !== req.user.id) {
+      return callback(HTTP_STATUSES.FORBIDDEN.createError('Cannot change alone articles'));
+    }
+    callback();
   }
 });
 
