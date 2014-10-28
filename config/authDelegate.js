@@ -82,7 +82,7 @@ AuthDelegate.prototype.findUserByToken = function(context, callback) {
           .ninvoke(AccessToken, 'findOne', { token: context.accessToken})
           .then(function (token) {
             // if it's expired
-            if (token && Math.round((Date.now() - token.createdAt) / 1000) > _this.tokenLife) {
+            if (token && Math.round((Date.now() - token.created) / 1000) > _this.tokenLife) {
               return Q
                 .ninvoke(AccessToken, 'remove', { token: token })
                 .then(function () {

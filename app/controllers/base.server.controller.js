@@ -14,10 +14,23 @@ var BaseController = Restifizer.Controller.extend({
   },
   defaultOptions: {
     enabled: true,
-    auth: 'bearer'
+    auth: ['bearer', 'session']
   },
   getAuth: function (options) {
-    return options.auth ? passport.authenticate(options.auth, { session: false }) : this._emptyPre;
+    var auths = [
+      passport.authenticate(options.auth, { session: false }),
+      function (req, res, next) {
+        if (!req.isAuthenticated()) {
+          //options
+          return res.status(401).send({
+            message: 'User is not logged in'
+          });
+        }
+
+        next();
+      }
+    ];
+    return options.auth ? auths : this._emptyPre;
   }
 });
 

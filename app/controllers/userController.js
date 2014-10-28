@@ -6,7 +6,7 @@ var
   _ = require('lodash'),
   Q = require('q'),
   User = require('mongoose').model('User'),
-  BaseController = require('./baseController'),
+  BaseController = require('./base.server.controller'),
   HTTP_STATUSES = require('http-statuses')
 ;
 

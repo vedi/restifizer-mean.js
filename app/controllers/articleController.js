@@ -6,7 +6,7 @@ var
   _ = require('lodash'),
   Q = require('q'),
   Article = require('mongoose').model('Article'),
-  BaseController = require('./baseController')
+  BaseController = require('./base.server.controller')
 ;
 
 var ArticleController = BaseController.extend({
@@ -14,14 +14,15 @@ var ArticleController = BaseController.extend({
   path: '/api/articles',
   fields: ['title', 'content', 'user', 'created'],
   qFields: ['title'],
-  defaultOptions: {
+  defaultOptions: _.defaults({
     queryPipe: function (query, req, res, callback) {
       return query.populate('user', 'displayName', callback);
     }
-  },
+  }, BaseController.prototype.defaultOptions),
   prepareData: function (req, res, callback) {
     callback(null, {user: req.user});
   }
 });
+
 module.exports = ArticleController;
 

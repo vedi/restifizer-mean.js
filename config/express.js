@@ -95,40 +95,6 @@ module.exports = function(db) {
 		app.locals.cache = 'memory';
 	}
 
-
-	//app.use(express.logger({format: function (tokens, req, res) {
-	//	var
-	//		status = res.statusCode,
-	//		len = parseInt(res.getHeader('Content-Length'), 10),
-	//		color = 32;
-  //
-	//	if (status >= 500) color = 31;
-	//	else if (status >= 400) color = 33;
-	//	else if (status >= 300) color = 36;
-  //
-	//	len = isNaN(len) ? '' : ' - ' + bytes(len);
-  //
-	//	var str = '\x1b[90m' + req._startTime.toISOString().replace(/T/, ' ').replace(/\..+/, '') +
-	//		' ' + req.method +
-	//		' ' + req.originalUrl + ' ' +
-	//		'\x1b[' + color + 'm' + res.statusCode +
-	//		' \x1b[90m' +
-	//		(new Date() - req._startTime) +
-	//		'ms' + len +
-	//		'\x1b[0m';
-  //
-	//	if (res.statusCode !== 404 && // NOT_FOUND
-	//		log.levels[log.transports.console.level] <= log.levels.debug) {
-  //
-	//		str += '\x1b[' + color + 'm\n\treq->\x1b[90m' + (req.body ? ('\n' + JSON.stringify(req.body, null, 2)) : '') +
-	//		'\x1b[' + color + 'm\n\tres<-\x1b[90m' + (res.restfulResult ? ('\n' + JSON.stringify(res.restfulResult, null, 2)) : '') + '\x1b[0m';
-	//	}
-	//	return  str;
-	//}}));
-  //
-  //
-
-
 	// Request body parsing middleware should be above methodOverride
 	app.use(bodyParser.urlencoded({
 		extended: true
@@ -198,17 +164,30 @@ module.exports = function(db) {
 		console.error(err.stack);
 
 		// Error page
-		res.status(500).render('500', {
-			error: err.stack
-		});
+		res.status(err.status || 500);
+		if (req.accepts('html')) {
+			res.render('500', {
+				error: err.stack
+			});
+		} else {
+			res.send({ error: err.message })
+		}
 	});
 
 	// Assume 404 since no middleware responded
 	app.use(function(req, res) {
-		res.status(404).render('404', {
-			url: req.originalUrl,
-			error: 'Not Found'
-		});
+		res.status(404);
+		if (req.accepts('html')) {
+			res.render('404', {
+				url: req.originalUrl,
+				error: 'Not Found'
+			});
+		} else {
+			res.send({
+				url: req.originalUrl,
+				error: 'Not Found'
+			})
+		}
 	});
 
 	return app;
