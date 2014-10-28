@@ -170,7 +170,7 @@ module.exports = function(db) {
 				error: err.stack
 			});
 		} else {
-			res.send({ error: err.message })
+			res.send({ error: err.message });
 		}
 	});
 
