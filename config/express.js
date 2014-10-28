@@ -146,7 +146,7 @@ module.exports = function(db) {
 
 	restifizer
 		.addController(require('../app/controllers/userController'))
-		.addController(require('../app/controllers/articleController'))
+		.addController(require('../app/controllers/articles.server.controller'))
 	;
 
 
@@ -186,7 +186,7 @@ module.exports = function(db) {
 			res.send({
 				url: req.originalUrl,
 				error: 'Not Found'
-			})
+			});
 		}
 	});
 
