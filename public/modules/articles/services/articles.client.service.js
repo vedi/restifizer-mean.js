@@ -5,12 +5,5 @@ angular.module('articles').factory('Articles', ['$resource', 'Restangular',
 	function($resource, Restangular) {
 		Restangular.setBaseUrl('api');
 		return Restangular.all('articles');
-		//return $resource('articles/:articleId', {
-		//	articleId: '@_id'
-		//}, {
-		//	update: {
-		//		method: 'PUT'
-		//	}
-		//});
 	}
 ]);
