@@ -1,9 +1,9 @@
 'use strict';
 
 module.exports = {
-	db: 'mongodb://localhost/eLiquid-dev',
+	db: 'mongodb://localhost/restifizer-mean.js-dev',
 	app: {
-		title: 'eLiquid - Development Environment'
+		title: 'restifizer-mean.js - Development Environment'
 	},
 	facebook: {
 		clientID: process.env.FACEBOOK_ID || 'APP_ID',

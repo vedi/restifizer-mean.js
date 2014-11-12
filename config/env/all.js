@@ -2,7 +2,7 @@
 
 module.exports = {
 	app: {
-		title: 'eLiquid',
+		title: 'restifizer-mean.js',
 		description: 'Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js',
 		keywords: 'MongoDB, Express, AngularJS, Node.js'
 	},
@@ -11,7 +11,7 @@ module.exports = {
 	},
 	port: process.env.PORT || 1338,
 	templateEngine: 'swig',
-	sessionSecret: '#eLiquid%MEAN$',
+	sessionSecret: '#restifizer-mean.js%MEAN$',
 	sessionCollection: 'sessions',
 	assets: {
 		lib: {

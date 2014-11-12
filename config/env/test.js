@@ -1,10 +1,10 @@
 'use strict';
 
 module.exports = {
-	db: 'mongodb://localhost/mysterytrip-test',
+	db: 'mongodb://localhost/restifizer-mean.js-test',
 	port: 3001,
 	app: {
-		title: 'MysteryTrip - Test Environment'
+		title: 'restifizer-mean.js - Test Environment'
 	},
 	facebook: {
 		clientID: process.env.FACEBOOK_ID || 'APP_ID',
