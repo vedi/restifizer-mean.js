@@ -29,6 +29,8 @@ module.exports = function(db) {
 	// Initialize express app
 	var app = express();
 
+	app.enable('trust proxy');
+
 	// Globbing model files
 	config.getGlobbedFiles('./app/models/**/*.js').forEach(function(modelPath) {
 		require(path.resolve(modelPath));
@@ -100,6 +102,33 @@ module.exports = function(db) {
 		extended: true
 	}));
 	app.use(bodyParser.json());
+	app.use(function(req, res, next) {
+		// Code was taken from here: https://github.com/jshttp/basic-auth/blob/master/index.js
+		req = req.req || req;
+
+		var auth = req.headers.authorization;
+		if (!auth) return next();
+
+		// malformed
+		var parts = auth.split(' ');
+		if ('basic' !== parts[0].toLowerCase()) return next();
+		if (!parts[1]) return next();
+		auth = parts[1];
+
+		// credentials
+		auth = new Buffer(auth, 'base64').toString();
+		auth = auth.match(/^([^:]*):(.*)$/);
+		if (!auth) return next();
+
+		if (!req.body) {
+			req.body = {};
+		}
+		req.body.client_id = auth[1];
+		req.body.client_secret = auth[2];
+
+		return next();
+
+	});
 	app.use(methodOverride());
 
 	// Enable jsonp
@@ -142,7 +171,9 @@ module.exports = function(db) {
 		.post(oAuth2.getToken())
 	;
 
-	var restifizer = new Restifizer(app, {});
+	var restifizer = new Restifizer(app, {
+		log: log
+	});
 
 	restifizer
 		.addController(require('../app/controllers/users.server.restifizer.controller'))
