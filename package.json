@@ -44,7 +44,7 @@
     "passport-local": "~1.0.0",
     "passport-twitter": "~1.0.2",
     "q": "^1.0.1",
-    "restifizer": "^0.1.2",
+    "restifizer": "^0.1.4",
     "swig": "~1.4.1",
     "winston": "^0.8.1"
   },
