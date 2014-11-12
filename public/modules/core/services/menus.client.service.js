@@ -101,6 +101,20 @@ angular.module('core').service('Menus', [
 			return this.menus[menuId];
 		};
 
+		// Add menu item object if it does not exists
+		this.addMenuItemIfNotExists = function(menuId, menuItemTitle, menuItemURL, menuItemType, menuItemUIRoute, isPublic, roles, position) {
+			this.validateMenuExistance(menuId);
+
+			// Search for menu item
+			for (var itemIndex in this.menus[menuId].items) {
+				if (this.menus[menuId].items[itemIndex].link === menuItemURL) {
+					return this.menus[menuId];
+				}
+			}
+
+			return this.addMenuItem(menuId, menuItemTitle, menuItemURL, menuItemType, menuItemUIRoute, isPublic, roles, position);
+		};
+
 		// Add submenu item object
 		this.addSubMenuItem = function(menuId, rootMenuItemURL, menuItemTitle, menuItemURL, menuItemUIRoute, isPublic, roles, position) {
 			// Validate that the menu exists
