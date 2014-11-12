@@ -176,7 +176,7 @@ module.exports = function(db) {
 	});
 
 	restifizer
-		.addController(require('../app/controllers/users.server.restifizer.controller'))
+		.addController(require('../app/controllers/users.restifizer.controller.js'))
 		.addController(require('../app/controllers/articles.server.restifizer.controller.js'))
 	;
 
