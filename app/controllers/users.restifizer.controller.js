@@ -74,11 +74,11 @@ module.exports = BaseController.extend({
   assignFilter: function (dest, source, fieldName, req) {
     var fieldValue = source[fieldName];
     // skip empty password
-    // skip scopes not from admins
+    // skip roles not from admins
     return (fieldName !== 'password' || (fieldValue && fieldValue.length !== 0)) &&
-      (fieldName !== 'scopes' ||
+      (fieldName !== 'roles' ||
       this.isAdmin(req) ||
-      (fieldValue && fieldValue.length === 1 && fieldValue[0] === 'own'));
+      (fieldValue && fieldValue.length === 1 && fieldValue[0] === 'user'));
   }
 });
 
