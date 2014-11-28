@@ -89,7 +89,7 @@ module.exports = function(db) {
 				return '';
 			}
 		});
-		app.use(morgan(':method :url :status :response-time ms - :res[content-length] :resdata'));
+		app.use(morgan(':date[clf]] :method :url :status :response-time ms - :res[content-length] :resdata'));
 
 		// Disable views cache
 		app.set('view cache', false);
