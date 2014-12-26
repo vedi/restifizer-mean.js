@@ -1,5 +1,8 @@
 <div class="action-group">
-    <a ng-if="grid.options.actions.view" class="glyphicon glyphicon-eye-open" data-ng-href="#!/{{grid.options.$scope.getViewPath(row.entity._id)}}"></a>
-    <a ng-if="grid.options.actions.edit" class="glyphicon glyphicon-edit" data-ng-href="#!/{{grid.options.$scope.getEditPath(row.entity._id)}}"></a>
-    <a ng-if="grid.options.actions.remove" class="glyphicon glyphicon-remove" data-ng-click="grid.options.remove(row.entity);"></a>
+    <a ng-if="grid.options.actions.view" class="glyphicon glyphicon-eye-open"
+       data-ng-href="#!/{{grid.options.$scope.getViewPath(row.entity._id)}}"></a>
+    <a ng-if="grid.options.actions.edit" class="glyphicon glyphicon-edit"
+       data-ng-href="#!/{{grid.options.$scope.getEditPath(row.entity._id)}}"></a>
+    <a ng-if="grid.options.actions.remove" class="glyphicon glyphicon-remove"
+       data-ng-click="grid.options.remove(row.entity);"></a>
 </div>

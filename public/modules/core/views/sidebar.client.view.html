@@ -2,7 +2,8 @@
     <ul class="nav nav-sidebar">
         <li><h4 class="nav-pills" ng-bind="contextData.title"></h4></li>
         <li data-ng-repeat="item in sidebarItems"
-            data-ng-if="item.shouldRender(authentication.user);" ui-route="{{item.url}}" ng-class="{active: ($uiRoute)}">
+            data-ng-if="item.shouldRender(authentication.user);" ui-route="{{item.url}}"
+            ng-class="{active: ($uiRoute)}">
             <a href="/#!{{item.url}}">
                 <span ng-show="item.icon" class="glyphicon {{item.icon}}"></span> {{item.title}}
             </a>

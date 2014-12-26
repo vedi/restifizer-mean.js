@@ -25,7 +25,7 @@ var BaseController = Restifizer.Controller.extend({
   },
   getAuth: function (options) {
     var auths = [
-      passport.authenticate(options.auth, { session: false }),
+      passport.authenticate(options.auth, {session: false}),
       function (req, res, next) {
         if (!req.isAuthenticated()) {
           //options

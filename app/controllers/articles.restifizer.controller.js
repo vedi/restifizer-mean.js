@@ -8,7 +8,7 @@ var
   HTTP_STATUSES = require('http-statuses'),
   Article = require('mongoose').model('Article'),
   BaseController = require('./base.restifizer.controller.js')
-;
+  ;
 
 var ArticleController = BaseController.extend({
   ModelClass: Article,
@@ -21,7 +21,7 @@ var ArticleController = BaseController.extend({
     }
   }, BaseController.prototype.defaultOptions),
   updateOptions: {
-    pre: function(req, res, callback) {
+    pre: function (req, res, callback) {
       if (req.restifizer.action !== 'delete' && req.param('user') !== req.user.id) {
         return callback(HTTP_STATUSES.FORBIDDEN.createError('Cannot change alone articles'));
       }

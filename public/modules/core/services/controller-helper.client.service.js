@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('core').factory('ControllerHelper', ['$location',
-  function($location) {
+  function ($location) {
     this.create = function create($scope, RestfulResource, options) {
       if (!$scope) {
         $scope = {};
@@ -13,7 +13,7 @@ angular.module('core').factory('ControllerHelper', ['$location',
       });
       $scope.restfulResources = [];
       $scope.queryParams = {};
-      $scope.find = function(force) {
+      $scope.find = function (force) {
         var page;
         if (force) {
           page = 1;
@@ -55,7 +55,7 @@ angular.module('core').factory('ControllerHelper', ['$location',
         return options.path + '/' + id + '/edit';
       };
 
-      $scope.remove = function(entity) {
+      $scope.remove = function (entity) {
         if (confirm('Do you want to remove the record?') === true) {
           if (entity) {
             RestfulResource.one(entity._id).remove().then(function () {
@@ -66,7 +66,7 @@ angular.module('core').factory('ControllerHelper', ['$location',
               }
             }, $scope.errorHandler);
           } else {
-            RestfulResource.one($scope.restfulResource._id).remove().then(function() {
+            RestfulResource.one($scope.restfulResource._id).remove().then(function () {
               $location.path($scope.getListPath());
             }, $scope.errorHandler);
           }
@@ -84,7 +84,7 @@ angular.module('core').factory('ControllerHelper', ['$location',
         return $scope.find(true);
       };
 
-      $scope.errorHandler = function(errorResponse) {
+      $scope.errorHandler = function (errorResponse) {
         $scope.error = errorResponse.data.message;
       };
 

@@ -8,7 +8,7 @@ var
   User = require('mongoose').model('User'),
   BaseController = require('./base.restifizer.controller.js'),
   HTTP_STATUSES = require('http-statuses')
-;
+  ;
 
 var filterOwnFields = function (req, user, insert) {
   if (!insert && !this.isAdmin(req) && (!req.user || user.id !== req.user.id)) {
@@ -41,7 +41,7 @@ module.exports = BaseController.extend({
     }
   },
   insertOptions: {
-    auth: ['bearer', 'oauth2-client-password', 'session', ],
+    auth: ['bearer', 'oauth2-client-password', 'session',],
     pre: function (req, res, next) {
       next();
     },

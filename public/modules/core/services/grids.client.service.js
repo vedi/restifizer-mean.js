@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('core').factory('Grids', ['uiGridConstants',
-  function(uiGridConstants) {
+  function (uiGridConstants) {
     this.createGridOptions = function createGridOptions($scope, RestfulResource, options) {
 
       options = _.defaults(options || {}, {
