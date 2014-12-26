@@ -1,6 +1,6 @@
 'use strict';
 
-//Menu service used for managing  menus
+//Menu service used for managing menus
 angular.module('core').service('Menus', [
 
 	function() {
@@ -133,6 +133,7 @@ angular.module('core').service('Menus', [
 						position: position || 0,
 						shouldRender: shouldRender
 					});
+					break;
 				}
 			}
 

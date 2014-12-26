@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	db: 'mongodb://localhost/restifizer-mean.js-dev',
+	db: 'mongodb://localhost/restifizer-mean-js-dev',
 	app: {
 		title: 'restifizer-mean.js - Development Environment'
 	},

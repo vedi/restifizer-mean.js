@@ -7,7 +7,7 @@ var
   Q = require('q'),
   HTTP_STATUSES = require('http-statuses'),
   Article = require('mongoose').model('Article'),
-  BaseController = require('./base.server.controller')
+  BaseController = require('./base.restifizer.controller.js')
 ;
 
 var ArticleController = BaseController.extend({

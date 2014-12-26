@@ -9,8 +9,7 @@ var mongoose = require('mongoose'),
 
 var ROLES = {
 	USER: 'user',
-	ADMIN: 'admin',
-	SELLER: 'seller'
+	ADMIN: 'admin'
 };
 
 /**

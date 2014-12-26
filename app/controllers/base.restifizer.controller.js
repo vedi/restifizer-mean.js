@@ -4,13 +4,20 @@
 'use strict';
 var
   Restifizer = require('restifizer').Restifizer,
-  passport = require('oauthifizer').passport;
+  passport = require('oauthifizer').passport,
+  User = require('mongoose').model('User');
 
 var BaseController = Restifizer.Controller.extend({
+  hasRole: function (req, role) {
+    return req.user &&
+      req.user.roles &&
+      req.user.roles.indexOf(role) >= 0;
+  },
   isAdmin: function (req) {
-    return req.authInfo &&
-      req.authInfo.scope &&
-      req.authInfo.scope.indexOf('all') >= 0;
+    return this.hasRole(req, User.ROLES.ADMIN);
+  },
+  isSeller: function (req) {
+    return this.hasRole(req, User.ROLES.SELLER);
   },
   defaultOptions: {
     enabled: true,

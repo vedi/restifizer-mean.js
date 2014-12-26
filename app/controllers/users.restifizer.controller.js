@@ -6,17 +6,9 @@ var
   _ = require('lodash'),
   Q = require('q'),
   User = require('mongoose').model('User'),
-  BaseController = require('./base.server.controller'),
+  BaseController = require('./base.restifizer.controller.js'),
   HTTP_STATUSES = require('http-statuses')
 ;
-
-var allowForOwn = function (req, res, next) {
-  if (!req.authInfo || (!this.isAdmin(req) && (!req.params._id || req.params._id !== req.user.id))) {
-    next(HTTP_STATUSES.FORBIDDEN.createError());
-  } else {
-    next();
-  }
-};
 
 var filterOwnFields = function (req, user, insert) {
   if (!insert && !this.isAdmin(req) && (!req.user || user.id !== req.user.id)) {
@@ -49,11 +41,8 @@ module.exports = BaseController.extend({
     }
   },
   insertOptions: {
-    auth: ['bearer', 'oauth2-client-password'],
+    auth: ['bearer', 'oauth2-client-password', 'session', ],
     pre: function (req, res, next) {
-      // set defaults
-      req.params.scopes = ['own'];
-      req.authInfo.scope = 'own';
       next();
     },
     post: function (user, req, res, callback) {
@@ -62,14 +51,25 @@ module.exports = BaseController.extend({
     }
   },
   updateOptions: {
-    pre: allowForOwn,
+    pre: function () {
+      this.allowForOwn.apply(this, arguments);
+    },
     post: function (result, req, res, callback) {
       filterOwnFields.call(this, req, result);
       callback(null, result);
     }
   },
   deleteOptions: {
-    pre: allowForOwn
+    pre: function () {
+      this.allowForOwn.apply(this, arguments);
+    },
+  },
+  allowForOwn: function (req, res, next) {
+    if (!this.isAdmin(req) && (!req.params._id || req.params._id !== req.user.id)) {
+      next(HTTP_STATUSES.FORBIDDEN.createError());
+    } else {
+      next();
+    }
   },
   assignFilter: function (dest, source, fieldName, req) {
     var fieldValue = source[fieldName];

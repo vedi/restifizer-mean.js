@@ -14,7 +14,6 @@ var
 	methodOverride = require('method-override'),
 	cookieParser = require('cookie-parser'),
 	helmet = require('helmet'),
-	passport = require('passport'),
 	mongoStore = require('connect-mongo')({
 		session: session
 	}),
@@ -23,6 +22,7 @@ var
 	consolidate = require('consolidate'),
 	path = require('path'),
 	OAuthifizer = require('oauthifizer'),
+	multipart = require('connect-multiparty'),
 	Restifizer = require('restifizer').Restifizer;
 
 module.exports = function(db) {
@@ -40,7 +40,6 @@ module.exports = function(db) {
 	app.locals.title = config.app.title;
 	app.locals.description = config.app.description;
 	app.locals.keywords = config.app.keywords;
-	app.locals.facebookAppId = config.facebook.clientID;
 	app.locals.jsFiles = config.getJavaScriptAssets();
 	app.locals.cssFiles = config.getCSSAssets();
 
@@ -84,12 +83,12 @@ module.exports = function(db) {
 				log.levels[log.transports.console.level] <= log.levels.debug) {
 
 				return '\x1b[' + color + 'm\n\treq->\x1b[90m' + (req.body ? ('\n' + JSON.stringify(req.body, null, 2)) : '') +
-				'\x1b[' + color + 'm\n\tres<-\x1b[90m' + (res.restfulResult ? ('\n' + JSON.stringify(res.restfulResult, null, 2)) : '') + '\x1b[0m';
+					'\x1b[' + color + 'm\n\tres<-\x1b[90m' + (res.restfulResult ? ('\n' + JSON.stringify(res.restfulResult, null, 2)) : '') + '\x1b[0m';
 			} else {
 				return '';
 			}
 		});
-		app.use(morgan(':date[clf]] :method :url :status :response-time ms - :res[content-length] :resdata'));
+		app.use(morgan('[:date[clf]] :method :url :status :response-time ms - :res[content-length] :resdata'));
 
 		// Disable views cache
 		app.set('view cache', false);
@@ -130,6 +129,8 @@ module.exports = function(db) {
 
 	});
 	app.use(methodOverride());
+
+	app.use(multipart());
 
 	// Enable jsonp
 	app.enable('jsonp callback');
@@ -177,7 +178,7 @@ module.exports = function(db) {
 
 	restifizer
 		.addController(require('../app/controllers/users.restifizer.controller.js'))
-		.addController(require('../app/controllers/articles.server.restifizer.controller.js'))
+		.addController(require('../app/controllers/articles.restifizer.controller.js'))
 	;
 
 
