@@ -11,7 +11,9 @@ module.exports = function(grunt) {
 		mochaTests: ['app/tests/**/*.js']
 	};
 
-	// Project Configuration
+  var debugPort = process.env.DEBUG_PORT || 5858;
+
+  // Project Configuration
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		watch: {
@@ -86,7 +88,7 @@ module.exports = function(grunt) {
 			dev: {
 				script: 'server.js',
 				options: {
-					nodeArgs: ['--debug'],
+          nodeArgs: ['--debug=' + debugPort],
 					ext: 'js,html',
 					watch: watchFiles.serverViews.concat(watchFiles.serverJS)
 				}
@@ -97,7 +99,7 @@ module.exports = function(grunt) {
 				options: {
 					'web-port': 1337,
 					'web-host': 'localhost',
-					'debug-port': 5858,
+          'debug-port': debugPort,
 					'save-live-edit': true,
 					'no-preload': true,
 					'stack-trace-limit': 50,
