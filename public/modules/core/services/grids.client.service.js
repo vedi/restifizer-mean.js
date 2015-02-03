@@ -23,8 +23,11 @@ angular.module('core').factory('Grids', ['uiGridConstants',
             field: field.name,
             displayName: field.title
           };
-          if (field.filter) {
+          if (!angular.isUndefined(field.filter)) {
             columnDef.cellFilter = field.filter;
+          }
+          if (!angular.isUndefined(field.cellEditableCondition)) {
+            columnDef.cellEditableCondition = field.cellEditableCondition;
           }
         }
         return columnDef;
@@ -144,8 +147,9 @@ angular.module('core').factory('Grids', ['uiGridConstants',
 
         if (gridApi.infiniteScroll) {
           gridApi.infiniteScroll.on.needLoadMoreData($scope, function () {
-            $scope.find();
-            gridApi.infiniteScroll.dataLoaded();
+            $scope.find(function () {
+              gridApi.infiniteScroll.dataLoaded();
+            });
           });
         }
       };

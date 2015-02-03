@@ -6,6 +6,7 @@ angular.module('core').factory('ControllerHelper', ['$location',
       if (!$scope) {
         $scope = {};
       }
+      $scope.RestfulResource = RestfulResource;
       options = _.defaults(options || {}, {
         path: undefined,
         pageSize: 25,
@@ -13,14 +14,23 @@ angular.module('core').factory('ControllerHelper', ['$location',
       });
       $scope.restfulResources = [];
       $scope.queryParams = {};
-      $scope.find = function (force) {
+      $scope.find = function (force, callback) {
+        if (typeof force === 'function') {
+          callback = force;
+          force = false;
+        }
+
         var page;
         if (force) {
           page = 1;
           $scope.restfulResources.length = 0;
         } else {
           if ($scope.lastPage === -1) {
-            return;
+            if (callback) {
+              return callback();
+            } else {
+              return;
+            }
           }
           page = ($scope.lastPage || 0) + 1;
         }
@@ -37,8 +47,11 @@ angular.module('core').factory('ControllerHelper', ['$location',
             } else {
               $scope.lastPage = -1;
             }
+            if (!_.isUndefined(callback)) {
+              callback(null, $scope.restfulResources);
+            }
           },
-          $scope.errorHandler);
+          callback ? callback : $scope.errorHandler);
 
         return $scope.restfulResources;
       };
@@ -58,7 +71,7 @@ angular.module('core').factory('ControllerHelper', ['$location',
       $scope.remove = function (entity) {
         if (confirm('Do you want to remove the record?') === true) {
           if (entity) {
-            RestfulResource.one(entity._id).remove().then(function () {
+            RestfulResource.one(entity[RestfulResource.idField]).remove().then(function () {
               for (var i in $scope.restfulResources) {
                 if ($scope.restfulResources[i] === entity) {
                   $scope.restfulResources.splice(i, 1);
@@ -66,7 +79,7 @@ angular.module('core').factory('ControllerHelper', ['$location',
               }
             }, $scope.errorHandler);
           } else {
-            RestfulResource.one($scope.restfulResource._id).remove().then(function () {
+            RestfulResource.one($scope.restfulResource[RestfulResource.idField]).remove().then(function () {
               $location.path($scope.getListPath());
             }, $scope.errorHandler);
           }
